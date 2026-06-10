@@ -27,6 +27,8 @@ def parse_args():
     p.add_argument("--no-freeze", action="store_true",
                    help="Fine-tune the whole backbone instead of just the head.")
     p.add_argument("--out", default=str(config.MODELS_DIR / "best.pt"))
+    p.add_argument("--resume", default=None,
+                   help="Path to a checkpoint to load model weights from before training.")
     return p.parse_args()
 
 
@@ -60,6 +62,8 @@ def main():
     args = parse_args()
     torch.manual_seed(config.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if device.type == "cuda":
+        torch.backends.cudnn.benchmark = True
     print(f"Device: {device}")
 
     train_loader, val_loader, classes = build_dataloaders(
@@ -68,6 +72,10 @@ def main():
 
     model = build_model(args.model_name, len(classes),
                         freeze_backbone=not args.no_freeze).to(device)
+    if args.resume:
+        ckpt = torch.load(args.resume, map_location=device)
+        model.load_state_dict(ckpt["model_state"])
+        print(f"Resumed weights from {args.resume}")
     criterion = nn.CrossEntropyLoss()
     trainable = [p for p in model.parameters() if p.requires_grad]
     optimizer = torch.optim.AdamW(trainable, lr=args.lr, weight_decay=config.WEIGHT_DECAY)

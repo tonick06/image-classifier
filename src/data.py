@@ -53,9 +53,11 @@ def build_dataloaders(data_dir, img_size: int, batch_size: int, num_workers: int
     train_loader = DataLoader(
         train_ds, batch_size=batch_size, shuffle=True,
         num_workers=num_workers, pin_memory=True,
+        persistent_workers=num_workers > 0,
     )
     val_loader = DataLoader(
         val_ds, batch_size=batch_size, shuffle=False,
         num_workers=num_workers, pin_memory=True,
+        persistent_workers=num_workers > 0,
     )
     return train_loader, val_loader, train_ds.classes
