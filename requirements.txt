@@ -1,0 +1,9 @@
+# Install PyTorch with CUDA separately first (see README), then:
+#   pip install -r requirements.txt
+torch>=2.4
+torchvision>=0.19
+numpy
+scikit-learn
+matplotlib
+tqdm
+Pillow

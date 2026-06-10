@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Train",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.train",
+      "console": "integratedTerminal",
+      "args": ["--epochs", "10"]
+    },
+    {
+      "name": "Evaluate",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.evaluate",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Predict (edit path)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.predict",
+      "console": "integratedTerminal",
+      "args": ["data/val/REPLACE_ME.jpg"]
+    }
+  ]
+}
