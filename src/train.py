@@ -62,8 +62,6 @@ def main():
     args = parse_args()
     torch.manual_seed(config.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if device.type == "cuda":
-        torch.backends.cudnn.benchmark = True
     print(f"Device: {device}")
 
     train_loader, val_loader, classes = build_dataloaders(
